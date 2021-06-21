@@ -1,0 +1,17 @@
+Obj=building
+Name=example1
+Copyright=128Na
+type=res
+chance=100
+Level=2
+clusters=1,11
+BackImage[0][0][0][0][0]=1xL.0.7
+---
+Obj=building
+Name=example2
+Copyright=128Na
+type=res
+chance=100
+Level=2
+clusters=1,11
+BackImage[0][0][0][0][0]=1xL.0.7

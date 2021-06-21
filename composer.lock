@@ -4837,12 +4837,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:128na/php-makeobj-wrapper.git",
-                "reference": "a96e8773d96037c2263ce6bc2e48f3cf26f61a17"
+                "reference": "81c51c28ba50dff9349638cd9f829e36d2e66c71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/128na/php-makeobj-wrapper/zipball/a96e8773d96037c2263ce6bc2e48f3cf26f61a17",
-                "reference": "a96e8773d96037c2263ce6bc2e48f3cf26f61a17",
+                "url": "https://api.github.com/repos/128na/php-makeobj-wrapper/zipball/81c51c28ba50dff9349638cd9f829e36d2e66c71",
+                "reference": "81c51c28ba50dff9349638cd9f829e36d2e66c71",
                 "shasum": ""
             },
             "require": {
@@ -4865,7 +4865,7 @@
             },
             "scripts": {
                 "test": [
-                    "phpunit"
+                    "vendor/bin/phpunit -c phpunit.linux.xml"
                 ]
             },
             "license": [
@@ -4882,7 +4882,7 @@
                 "source": "https://github.com/128na/php-makeobj-wrapper/tree/main",
                 "issues": "https://github.com/128na/php-makeobj-wrapper/issues"
             },
-            "time": "2021-06-20T06:36:32+00:00"
+            "time": "2021-06-21T13:37:33+00:00"
         },
         {
             "name": "doctrine/instantiator",

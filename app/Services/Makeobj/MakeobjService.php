@@ -21,7 +21,7 @@ class MakeobjService implements MakeobjServiceInterface
             throw new MakeobjFailedException($res);
         }
 
-        return $res->getOutput()[1] ?? '';
+        return $res->getStdErr();
     }
 
     public function capabilities(): array
@@ -30,18 +30,21 @@ class MakeobjService implements MakeobjServiceInterface
         if ($res->getCode() !== 0) {
             throw new MakeobjFailedException($res);
         }
-        $capabilities = array_slice($res->getOutput(), 6);
+        $stdout = $res->getStdOutAsArray();
+        // 先頭と末尾を除外する
+        $capabilities = array_slice($stdout, 1, count($stdout) - 2);
 
         return array_map('trim', $capabilities);
     }
 
-    public function list(string $filePath): array
+    public function list(string $pakFilePath): array
     {
-        $res = $this->makeobj->list($filePath);
+        $res = $this->makeobj->list(dirname($pakFilePath), basename($pakFilePath));
         if ($res->getCode() !== 0) {
             throw new MakeobjFailedException($res);
         }
-        $list = array_slice($res->output, 3);
+        $stdout = $res->getStdOutAsArray();
+        $list = array_slice($stdout, 3, count($stdout) - 4);
 
         return array_map(function ($l) {
             preg_match('/^(\w+)\s+(.+)\s+(\d+)\s+(\d+)$/', $l, $matches);
@@ -55,30 +58,22 @@ class MakeobjService implements MakeobjServiceInterface
         }, $list);
     }
 
-    public function pak(int $size, string $basePath, string $pakFile, string $datFile, bool $debug = false): array
+    public function pak(int $size, string $pakFilename, string $datFilePath, bool $debug = true): void
     {
-        if (!$datFile) {
-            $datFile = './';
-        }
-        if (!$pakFile) {
-            $pakFile = './';
-        }
-
-        $res = $this->makeobj->pak($size, $basePath, $datFile, $pakFile, $debug);
+        $res = $this->makeobj->pak(dirname($datFilePath), $size, $pakFilename, basename($datFilePath), $debug);
         if ($res->getCode() !== 0) {
             throw new MakeobjFailedException($res);
         }
-
-        return $res->getOutput();
     }
 
-    public function dump(string $pakFile): Node
+    public function dump(string $pakFilePath): Node
     {
-        $res = $this->makeobj->dump($pakFile);
+        $res = $this->makeobj->dump(dirname($pakFilePath), basename($pakFilePath));
         if ($res->getCode() !== 0) {
             throw new MakeobjFailedException($res);
         }
-        $list = array_slice($res->getOutput(), 6);
+        $stdout = $res->getStdOutAsArray();
+        $list = array_slice($stdout, 1, count($stdout) - 2);
         $list = array_map(fn ($l) => new Node($l), $list);
 
         return $this->toArrayReclusive($list)[0];
@@ -123,9 +118,43 @@ class MakeobjService implements MakeobjServiceInterface
         return $result;
     }
 
-    // public function merge(string $pakFile, array $pakFiles): array{}
+    public function merge(string $mergedPakFilename, array $pakFilePathes): void
+    {
+        $res = $this->makeobj->merge(
+            dirname($pakFilePathes[0]),
+            $mergedPakFilename,
+            implode(' ', array_map(fn ($p) => basename($p), $pakFilePathes))
+        );
+        if ($res->getCode() !== 0) {
+            throw new MakeobjFailedException($res);
+        }
+    }
 
-    // public function expand(string $output, array $datFiles): array{}
+    public function extract(string $pakFilePath): array
+    {
+        $dir = dirname($pakFilePath);
+        $res = $this->makeobj->extract(
+            $dir,
+            basename($pakFilePath)
+        );
 
-    // public function extract(string $pakFileArchive): array{}
+        if ($res->getCode() !== 0) {
+            throw new MakeobjFailedException($res);
+        }
+
+        return $this->filterExtractedFilename($res->getStdOutAsArray());
+    }
+
+    private function filterExtractedFilename(array $stdout): array
+    {
+        $tmp = array_map(function ($line) {
+            preg_match('/^\s*writing \'(.+)\' \.\.\.\s*/', $line, $matches);
+
+            return $matches[1] ?? '';
+        }, $stdout);
+        $tmp = array_filter($tmp);
+        $tmp = array_values($tmp);
+
+        return $tmp;
+    }
 }

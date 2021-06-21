@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'path' => base_path(env('MAKEOBJ_PATH')),
+    'os' => env('MAKEOBJ_OS', 'win'),
 ];

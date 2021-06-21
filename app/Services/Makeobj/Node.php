@@ -80,8 +80,15 @@ class Node
         return $str;
     }
 
-    public function toJson()
+    public function toArray(): array
     {
-        return json_encode($this, JSON_PRETTY_PRINT);
+        return [
+            'level' => $this->level,
+            'name' => $this->name,
+            'type' => $this->type,
+            'size' => $this->size,
+            'value' => $this->value,
+            'children' => array_map(fn (Node $n) => $n->toArray(), $this->children),
+        ];
     }
 }
