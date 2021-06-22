@@ -13,7 +13,8 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.40",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "128na/php-makeobj-wrapper": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -21,8 +22,7 @@
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.3.3",
-        "128na/php-makeobj-wrapper": "*"
+        "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
         "psr-4": {
