@@ -46,12 +46,6 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ],
-        "post-install-cmd": [
-            "sudo chmod 755 ./vendor/128na/php-makeobj-wrapper/bin"
-        ],
-        "post-update-cmd": [
-            "sudo chmod 755 ./vendor/128na/php-makeobj-wrapper/bin"
         ]
     },
     "extra": {
