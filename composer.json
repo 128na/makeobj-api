@@ -48,10 +48,10 @@
             "@php artisan key:generate --ansi"
         ],
         "post-install-cmd": [
-            "sudo chmod -R 755 vendor/128na/php-makeobj-wrapper/bin/makeobj-linux-60-2/makeobj"
+            "sudo chmod 755 ./vendor/128na/php-makeobj-wrapper/bin"
         ],
         "post-update-cmd": [
-            "sudo chmod -R 755 vendor/128na/php-makeobj-wrapper/bin/makeobj-linux-60-2/makeobj"
+            "sudo chmod 755 ./vendor/128na/php-makeobj-wrapper/bin"
         ]
     },
     "extra": {
