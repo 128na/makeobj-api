@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdb65e3b7ba0ffb32cdd143b216cbc5a",
+    "content-hash": "d637d68a924fed44d8cd5cbc186ea0d4",
     "packages": [
         {
             "name": "128na/php-makeobj-wrapper",
-            "version": "0.1.1",
+            "version": "0.1.3",
             "source": {
                 "type": "git",
-                "url": "git@github.com:128na/php-makeobj-wrapper.git",
-                "reference": "27d9ff3ff19c3e6684c08ac6788d83f53abc7b0f"
+                "url": "https://github.com/128na/php-makeobj-wrapper.git",
+                "reference": "d6f0b9f7166ce4d61ef79f2dfe6569df3669975a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/128na/php-makeobj-wrapper/zipball/27d9ff3ff19c3e6684c08ac6788d83f53abc7b0f",
-                "reference": "27d9ff3ff19c3e6684c08ac6788d83f53abc7b0f",
+                "url": "https://api.github.com/repos/128na/php-makeobj-wrapper/zipball/d6f0b9f7166ce4d61ef79f2dfe6569df3669975a",
+                "reference": "d6f0b9f7166ce4d61ef79f2dfe6569df3669975a",
                 "shasum": ""
             },
             "require": {
@@ -32,16 +32,7 @@
                     "_128Na\\Simutrans\\Makeobj\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Tests\\": "tests/"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "vendor/bin/phpunit -c phpunit.linux.xml"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -53,10 +44,10 @@
             ],
             "description": "PHP makeobj wrapper form Simutrans",
             "support": {
-                "source": "https://github.com/128na/php-makeobj-wrapper/tree/0.1.1",
-                "issues": "https://github.com/128na/php-makeobj-wrapper/issues"
+                "issues": "https://github.com/128na/php-makeobj-wrapper/issues",
+                "source": "https://github.com/128na/php-makeobj-wrapper/tree/0.1.3"
             },
-            "time": "2021-06-22T09:12:41+00:00"
+            "time": "2021-06-22T10:43:18+00:00"
         },
         {
             "name": "asm89/stack-cors",
