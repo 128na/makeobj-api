@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return 'ok';
+    return 'usage: https://github.com/128na/makeobj-api';
 });
