@@ -64,6 +64,7 @@ jobs:
         run: php artisan test -v --env=local
 
       - name: Display Error Log
+        if: always()
         run: "[ -e storage/logs/laravel.log ] && cat storage/logs/laravel.log || echo 'no log file.'"
 
   deploy:
