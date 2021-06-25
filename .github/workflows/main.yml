@@ -113,8 +113,6 @@ jobs:
             && git checkout ${{ github.ref }}
             && sed -i "s/APP_VERSION=.*/APP_VERSION=$( git describe --tags )/" .env
             && composer install --optimize-autoloader --no-dev
-            && php artisan migrate --force
-            && php artisan migrate:status
             && php artisan optimize
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
