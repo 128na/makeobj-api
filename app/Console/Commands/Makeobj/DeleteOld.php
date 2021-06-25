@@ -5,7 +5,7 @@ namespace App\Console\Commands\Makeobj;
 use App\Services\File\FileServiceInterface;
 use Illuminate\Console\Command;
 
-class DeleteOldFiles extends Command
+class DeleteOld extends Command
 {
     protected $signature = 'makeobj:delete_old {days=7 : 日数}';
 
