@@ -22,4 +22,9 @@ interface FileServiceInterface
      * ファイル名をオリジナルファイル名で保存する。ファイルが存在する場合は上書きする.
      */
     public function putAsOriginal(string $dir, UploadedFile $file): string;
+
+    /**
+     * 指定日よりも過去のファイルを削除する.
+     */
+    public function deleteOldFiles(string $baseDir = '', int $days = 7): array;
 }

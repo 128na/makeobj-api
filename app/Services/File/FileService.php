@@ -2,6 +2,7 @@
 
 namespace App\Services\File;
 
+use Carbon\Carbon;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
 
@@ -53,5 +54,21 @@ class FileService implements FileServiceInterface
         }
 
         return $this->disk->path($this->disk->putFileAs($dir, $file, $filename));
+    }
+
+    public function deleteOldFiles(string $baseDir = '', int $days = 7): array
+    {
+        $now = now();
+        $deleted = [];
+        foreach ($this->disk->directories($baseDir) as $dir) {
+            $time = $this->disk->lastModified($dir);
+
+            if ($now->diffInDays(Carbon::parse($time)) > $days) {
+                $this->disk->deleteDirectory($dir);
+                $deleted[] = $dir;
+            }
+        }
+
+        return $deleted;
     }
 }
