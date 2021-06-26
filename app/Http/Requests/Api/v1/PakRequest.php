@@ -11,8 +11,10 @@ class PakRequest extends FormRequest
         return [
             'filename' => 'required|string|regex:/^[\d\w\-\_]+$/u|max:100',
             'dat' => 'required|string|max:65535',
+            'images' => 'array|min:1',
             'images.*' => 'required|file|mimetypes:image/png',
             'size' => 'required|integer|min:16|max:1024',
+            'debug' => 'nullable|bool',
         ];
     }
 }

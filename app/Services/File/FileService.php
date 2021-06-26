@@ -5,6 +5,7 @@ namespace App\Services\File;
 use Carbon\Carbon;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileService implements FileServiceInterface
 {
@@ -13,6 +14,13 @@ class FileService implements FileServiceInterface
     public function __construct(FilesystemAdapter $disk)
     {
         $this->disk = $disk;
+    }
+
+    public function download(string $dir, string $filename): StreamedResponse
+    {
+        $path = "$dir/$filename";
+
+        return $this->disk->download($path, basename($filename));
     }
 
     public function url(string $dir, string $filename): string

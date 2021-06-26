@@ -3,10 +3,13 @@
 namespace App\Services\File;
 
 use Illuminate\Http\UploadedFile;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 interface FileServiceInterface
 {
     public function url(string $dir, string $filename): string;
+
+    public function download(string $dir, string $filename): StreamedResponse;
 
     /*
      * ファイル名を指定名で保存する。ファイルが存在する場合は上書きする.
