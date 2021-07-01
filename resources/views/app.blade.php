@@ -42,7 +42,7 @@
             <label for="dat" class="form-label">dat
             </label>
             <textarea class="form-control" id="dat" name="dat"
-                rows="15">{{ old(
+                rows="10">{{ old(
     'dat',
     'Obj=building
 Name=example1
@@ -64,6 +64,8 @@ BackImage[0][0][0][0][0]=1xL.0.7
                 テスト用画像はこちら<a target="_blank" rel="noopener"
                     href="https://misc.128-bit.net/file/makeobj_api_demo/1xL.png">1xL.png</a>
             </div>
+
+            <div id="preview" class="border mt-3 position-relative overflow-scroll"></div>
         </div>
         <div class="mb-3">
             <label for="filename" class="form-label">pak サイズ</label>
@@ -82,5 +84,45 @@ BackImage[0][0][0][0][0]=1xL.0.7
         <a target="_blank" rel="noopener" href="https://twitter.com/128Na">Twitter</a>
     </div>
 </div>
+
+<script>
+    const images = document.getElementById('images');
+    const preview = document.getElementById('preview');
+    const size = document.getElementById('size');
+
+    const handlePreview = e => {
+        console.log(size.value)
+        preview.innerHTML = `<div id="grid" style="background-size:${size.value || 64}px"></div>`;
+        [...e.target.files].map(f => {
+            const r = new FileReader();
+            r.onload = () => preview.innerHTML += `<img src="${r.result}">`;
+            r.readAsDataURL(f)
+        });
+    };
+
+    const handleSize = e => {
+        const el = document.getElementById('grid');
+        if (el) {
+            el.style = `background-size:${size.value || 64}px`;
+        }
+    };
+
+    images.addEventListener('change', handlePreview);
+    size.addEventListener('change', handleSize);
+</script>
+
+<style>
+    #grid {
+        background-image: url(/grid.png);
+        margin: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 1024;
+    }
+
+</style>
 
 </html>
