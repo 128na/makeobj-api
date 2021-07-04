@@ -92,16 +92,18 @@ class MakeobjController extends Controller
             $reqeust->file('images', [])
         );
 
-        $this->makeobjService->pak(
-            (int) $reqeust->input('size', 64),
-            $pakFilename,
-            $this->fileService->put($dir, $dat, $datFilename),
-            (bool) $reqeust->input('debug', false)
-        );
+        try {
+            $this->makeobjService->pak(
+                (int) $reqeust->input('size', 64),
+                $pakFilename,
+                $this->fileService->put($dir, $dat, $datFilename),
+                (bool) $reqeust->input('debug', false)
+            );
 
-        return [
-            'pakfile' => $this->fileService->url($dir, $pakFilename),
-        ];
+            return ['pakfile' => $this->fileService->url($dir, $pakFilename)];
+        } catch (MakeobjFailedException $e) {
+            return $this->errorResponse($e);
+        }
     }
 
     public function merge(MergeRequest $reqeust)
@@ -114,11 +116,13 @@ class MakeobjController extends Controller
             $reqeust->file('files', [])
         );
 
-        $this->makeobjService->merge($pakFilename, $pakFilePathes);
+        try {
+            $this->makeobjService->merge($pakFilename, $pakFilePathes);
 
-        return [
-            'pakfile' => $this->fileService->url($dir, $pakFilename),
-        ];
+            return ['pakfile' => $this->fileService->url($dir, $pakFilename)];
+        } catch (MakeobjFailedException $e) {
+            return $this->errorResponse($e);
+        }
     }
 
     public function extract(ExtractRequest $reqeust)
