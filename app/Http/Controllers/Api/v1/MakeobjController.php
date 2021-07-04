@@ -31,8 +31,8 @@ class MakeobjController extends Controller
     {
         return response([
             'code' => $e->getResponse()->getCode(),
-            'error' => $e->getResponse()->getStdErrAsArray(),
-            'output' => $e->getResponse()->getStdOutAsArray(),
+            'error' => $e->getResponse()->getStdErr(),
+            'output' => $e->getResponse()->getStdOut(),
         ], 400);
     }
 

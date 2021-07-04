@@ -2,13 +2,28 @@
 
 Makeobjをいい感じに使えるようにした公開APIです。
 
-# 制限
+# 仕様
+
+## 制限
 
 各APIともIPごとに毎分60回までのリクエスト制限があります。
+POSTされたファイルや生成されたファイルは1週間程度で自動削除されます。
 
 
-# API一覧
+## ステータスコード一覧
+
+|ステータスコード|状態|レスポンスボディ|
+|---|---|---|
+|200|処理に成功|各APIの項目を参照|
+|400|makeobj処理エラー|`{code:makeobj終了コード, output:標準出力, error:標準エラー出力}`|
+|422|入力値バリデーションエラー|`{errors:{項目名:[エラー内容, ...], ...}}`|
+|429|リクエスト頻度制限||
+|500|システムエラー|各APIの項目を参照|
+
+
+## API一覧
 基本的な使い方は makobj の引数と同じです。
+
 
 ### [GET] /api/v1/version
 
@@ -20,6 +35,7 @@ curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/
   "version": "Makeobj version 60.2 for Simutrans 120.4 and higher\n"
 }
 ```
+
 
 ### [GET] /api/v1/capabilities
 
@@ -35,6 +51,7 @@ curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/
   ]
 }
 ```
+
 
 ### [POST] /api/v1/list
 
@@ -57,13 +74,16 @@ curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/
     }
   ]
 }
+
 ```
+※ ファイルを送信するため、POST時の `enctype` を `multipart/form-data` にする必要があります。
+
 
 ### [POST] /api/v1/dump
 
 POSTしたpakファイルのダンプ情報を返します。
-```
 
+```
 curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/api/v1/dump' -X POST -F 'file=@example.all.pak'| jq
 {
   "node": {
@@ -82,6 +102,8 @@ curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/
         "children": [
               ...
 ```
+※ ファイルを送信するため、POST時の `enctype` を `multipart/form-data` にする必要があります。
+
 
 ### [POST] /api/v1/pak
 
@@ -94,6 +116,8 @@ curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/
   "pakfile": "https://makeobj-api.128-bit.net/storage/pak/xxxxxxxxxxx/test.pak"
 }
 ```
+※ ファイルを送信するため、POST時の `enctype` を `multipart/form-data` にする必要があります。
+
 
 ### [POST] /api/v1/merge
 
@@ -107,6 +131,8 @@ curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/
   "pakfile": "https://makeobj-api.128-bit.net/storage/pak/xxxxxxxxxxx/merged.pak"
 }
 ```
+※ ファイルを送信するため、POST時の `enctype` を `multipart/form-data` にする必要があります。
+
 
 ### [POST] /api/v1/extract
 
@@ -122,3 +148,5 @@ curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/
   ]
 }
 ```
+※ ファイルを送信するため、POST時の `enctype` を `multipart/form-data` にする必要があります。
+
