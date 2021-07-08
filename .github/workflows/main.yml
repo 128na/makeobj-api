@@ -45,7 +45,7 @@ jobs:
         run: composer install
 
       - name: install makeobj dependencies
-        run: sudo wget -P /lib/x86_64-linux-gnu/ https://misc.128-bit.net/file/lib/libpng12.so.0 && sudo chmod 777 /lib/x86_64-linux-gnu/libpng12.so.0
+        run: sudo wget -P /lib/x86_64-linux-gnu/ https://simutrans.sakura.ne.jp/files/lib/libpng12.so.0 && sudo chmod 777 /lib/x86_64-linux-gnu/libpng12.so.0
 
       - name: chmod 777
         run: chmod -R 0777 ./

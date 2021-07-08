@@ -62,7 +62,7 @@ BackImage[0][0][0][0][0]=1xL.0.7
 
             <div class="mt-2">
                 テスト用画像はこちら<a target="_blank" rel="noopener"
-                    href="https://misc.128-bit.net/file/makeobj_api_demo/1xL.png">1xL.png</a>
+                    href="https://github.com/128na/pak64.map/blob/master/src/dat/building/1xL.png">1xL.png</a>
             </div>
 
             <div id="preview" class="border mt-3 position-relative overflow-scroll"></div>
