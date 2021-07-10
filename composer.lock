@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "128na/php-makeobj-wrapper",
-            "version": "0.1.4",
+            "version": "0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/128na/php-makeobj-wrapper.git",
-                "reference": "03bcaf007f3ed7ec4cca0de0aa911ae28418a8ac"
+                "reference": "8c79ffd2c30fca2b08e3e04c9c55bb43095db035"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/128na/php-makeobj-wrapper/zipball/03bcaf007f3ed7ec4cca0de0aa911ae28418a8ac",
-                "reference": "03bcaf007f3ed7ec4cca0de0aa911ae28418a8ac",
+                "url": "https://api.github.com/repos/128na/php-makeobj-wrapper/zipball/8c79ffd2c30fca2b08e3e04c9c55bb43095db035",
+                "reference": "8c79ffd2c30fca2b08e3e04c9c55bb43095db035",
                 "shasum": ""
             },
             "require": {
@@ -45,9 +45,9 @@
             "description": "PHP makeobj wrapper form Simutrans",
             "support": {
                 "issues": "https://github.com/128na/php-makeobj-wrapper/issues",
-                "source": "https://github.com/128na/php-makeobj-wrapper/tree/0.1.4"
+                "source": "https://github.com/128na/php-makeobj-wrapper/tree/0.1.5"
             },
-            "time": "2021-07-08T12:51:29+00:00"
+            "time": "2021-07-10T02:53:28+00:00"
         },
         {
             "name": "asm89/stack-cors",
