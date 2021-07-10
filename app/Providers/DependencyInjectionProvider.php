@@ -21,7 +21,7 @@ class DependencyInjectionProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Makeobj::class, function ($app) {
-            return new Makeobj(config('makeobj.os'));
+            return new Makeobj(config('makeobj.os'), config('makeobj.path'));
         });
 
         $this->app->bind(FilesystemAdapter::class, function ($app) {
