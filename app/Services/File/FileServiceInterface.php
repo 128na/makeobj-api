@@ -26,6 +26,8 @@ interface FileServiceInterface
      */
     public function putAsOriginal(string $dir, UploadedFile $file): string;
 
+    public function putAsOriginalFromUrl(string $dir, string $filename, string $url): string;
+
     /**
      * 指定日よりも過去のファイルを削除する.
      */

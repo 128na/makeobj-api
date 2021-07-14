@@ -5,6 +5,7 @@ namespace App\Services\File;
 use Carbon\Carbon;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class FileService implements FileServiceInterface
@@ -62,6 +63,22 @@ class FileService implements FileServiceInterface
         }
 
         return $this->disk->path($this->disk->putFileAs($dir, $file, $filename));
+    }
+
+    public function putAsOriginalFromUrl(string $dir, string $filename, string $url): string
+    {
+        $res = Http::get($url);
+        if (!$res->ok() || $res->header('Content-Type') !== 'image/png') {
+            throw new FileExeption(sprintf('invalid response from %s. status: %s, content-type: "%s"', $url, $res->status(), $res->header('Content-Type')));
+        }
+
+        $path = "$dir/$filename";
+        if ($this->disk->exists($path)) {
+            $this->disk->delete($path);
+        }
+        $this->disk->put($path, $res->body());
+
+        return $this->disk->path($path);
     }
 
     public function deleteOldFiles(string $baseDir = '', int $days = 7): array

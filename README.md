@@ -110,6 +110,7 @@ curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/
 POSTしたdat、画像を利用してpak化をします。
 `指定ファイル名.pak` 形式でpak化されたファイルのURLが返されます。
 
+#### 画像をファイルで送信する
 ```
 curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/api/v1/pak' -X POST -F "images[0]=@1xL.png" -F 'filename=test' -F 'size=64' -F 'dat="obj=building"' | jq
 {
@@ -117,6 +118,17 @@ curl -H 'X-Requested-With: XMLHttpRequest' -sS 'https://makeobj-api.128-bit.net/
 }
 ```
 ※ ファイルを送信するため、POST時の `enctype` を `multipart/form-data` にする必要があります。
+
+#### 画像をURLで送信する
+
+画像がweb上にアップロードされている場合はこちらが便利です。
+
+```
+curl -X POST -H "Content-Type: application/json" -d '{"filename": "test","dat": "obj=building","size": 64,"imageUrls": [{"filename" : "hoge.png","url" : "https://raw.githubusercontent.com/128na/pak64.map/master/src/dat/building/1xL.png"}]}' https://makeobj-api.128-bit.net/api/v1/pak | jq
+{
+  "pakfile": "https://makeobj-api.128-bit.net/storage/pak/xxxxxxxxxxx/test.pak"
+}
+```
 
 
 ### [POST] /api/v1/merge

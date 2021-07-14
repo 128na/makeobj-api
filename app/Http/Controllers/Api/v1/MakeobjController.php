@@ -8,6 +8,7 @@ use App\Http\Requests\Api\v1\ExtractRequest;
 use App\Http\Requests\Api\v1\ListRequest;
 use App\Http\Requests\Api\v1\MergeRequest;
 use App\Http\Requests\Api\v1\PakRequest;
+use App\Services\File\FileExeption;
 use App\Services\File\FileServiceInterface;
 use App\Services\Makeobj\MakeobjFailedException;
 use App\Services\Makeobj\MakeobjServiceInterface;
@@ -27,7 +28,7 @@ class MakeobjController extends Controller
         $this->fileService = $fileService;
     }
 
-    private function errorResponse(MakeobjFailedException $e)
+    private function handleMakeobjError(MakeobjFailedException $e)
     {
         return response([
             'code' => $e->getResponse()->getCode(),
@@ -36,12 +37,19 @@ class MakeobjController extends Controller
         ], 400);
     }
 
+    private function handleFileError(FileExeption $e)
+    {
+        return response([
+            'error' => $e->getMessage(),
+        ], 400);
+    }
+
     public function version()
     {
         try {
             return response(['version' => $this->makeobjService->version()]);
         } catch (MakeobjFailedException $e) {
-            return $this->errorResponse($e);
+            return $this->handleMakeobjError($e);
         }
     }
 
@@ -50,7 +58,7 @@ class MakeobjController extends Controller
         try {
             return response(['capabilities' => $this->makeobjService->capabilities()]);
         } catch (MakeobjFailedException $e) {
-            return $this->errorResponse($e);
+            return $this->handleMakeobjError($e);
         }
     }
 
@@ -62,7 +70,7 @@ class MakeobjController extends Controller
         try {
             return response(['list' => $this->makeobjService->list($path)]);
         } catch (MakeobjFailedException $e) {
-            return $this->errorResponse($e);
+            return $this->handleMakeobjError($e);
         }
     }
 
@@ -74,7 +82,7 @@ class MakeobjController extends Controller
         try {
             return response(['node' => $this->makeobjService->dump($path)->toArray()]);
         } catch (MakeobjFailedException $e) {
-            return $this->errorResponse($e);
+            return $this->handleMakeobjError($e);
         }
     }
 
@@ -87,10 +95,18 @@ class MakeobjController extends Controller
         $dat = $reqeust->input('dat', '');
         $dir = 'pak/'.Str::uuid();
 
-        array_map(
-            fn (UploadedFile $file) => $this->fileService->putAsOriginal($dir, $file, '.png'),
-            $reqeust->file('images', [])
-        );
+        try {
+            array_map(
+                fn (UploadedFile $file) => $this->fileService->putAsOriginal($dir, $file),
+                $reqeust->input('images', [])
+            );
+            array_map(
+                fn (array $data) => $this->fileService->putAsOriginalFromUrl($dir, $data['filename'], $data['url']),
+                $reqeust->input('imageUrls', [])
+            );
+        } catch (FileExeption $e) {
+            return $this->handleFileError($e);
+        }
 
         try {
             $this->makeobjService->pak(
@@ -102,7 +118,7 @@ class MakeobjController extends Controller
 
             return ['pakfile' => $this->fileService->url($dir, $pakFilename)];
         } catch (MakeobjFailedException $e) {
-            return $this->errorResponse($e);
+            return $this->handleMakeobjError($e);
         }
     }
 
@@ -121,7 +137,7 @@ class MakeobjController extends Controller
 
             return ['pakfile' => $this->fileService->url($dir, $pakFilename)];
         } catch (MakeobjFailedException $e) {
-            return $this->errorResponse($e);
+            return $this->handleMakeobjError($e);
         }
     }
 
@@ -137,7 +153,7 @@ class MakeobjController extends Controller
                 'pakfiles' => array_map(fn ($f) => $this->fileService->url($dir, $f), $pakFilenames),
             ]);
         } catch (MakeobjFailedException $e) {
-            return $this->errorResponse($e);
+            return $this->handleMakeobjError($e);
         }
     }
 }
