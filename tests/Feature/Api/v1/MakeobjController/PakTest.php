@@ -32,4 +32,21 @@ class PakTest extends TestCase
         $response->assertStatus(200);
         $this->assertStringContainsString('testing.pak', $response->json('pakfile'));
     }
+
+    public function test画像URL()
+    {
+        $url = route('api.v1.pak');
+        $data = [
+            'filename' => 'testing',
+            'dat' => file_get_contents(__DIR__.'/example/example.dat'),
+            'size' => 64,
+            'imageUrls' => [
+                ['filename' => '1xL.png', 'url' => 'https://raw.githubusercontent.com/128na/pak64.map/master/src/dat/building/1xL.png'],
+            ],
+        ];
+        $response = $this->postJson($url, $data);
+
+        $response->assertStatus(200);
+        $this->assertStringContainsString('testing.pak', $response->json('pakfile'));
+    }
 }

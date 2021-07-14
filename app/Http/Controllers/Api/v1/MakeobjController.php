@@ -98,7 +98,7 @@ class MakeobjController extends Controller
         try {
             array_map(
                 fn (UploadedFile $file) => $this->fileService->putAsOriginal($dir, $file),
-                $reqeust->input('images', [])
+                $reqeust->file('images', [])
             );
             array_map(
                 fn (array $data) => $this->fileService->putAsOriginalFromUrl($dir, $data['filename'], $data['url']),
