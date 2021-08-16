@@ -40,8 +40,8 @@ return [
             'visibility' => 'public',
             'permissions' => [
                 'file' => [
-                    'public' => 0664,
-                    'private' => 0664,
+                    'public' => 0666,
+                    'private' => 0666,
                 ],
                 'dir' => [
                     'public' => 0775,
